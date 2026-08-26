@@ -1,0 +1,116 @@
+generated: '2026-08-26'
+method: searched
+source: https://plamo.preferredai.jp/news
+name: Preferred Networks PLaMo platform changelog
+description: >-
+  PFN maintains a dated, categorised news feed for the PLaMo platform at plamo.preferredai.jp/news,
+  covering model releases, API feature additions, plan and terms changes, and end-of-life notices.
+  The page is a client-rendered single-page application; the entries below were read verbatim from
+  the application's own news data structure served in its bundle
+  (https://plamo.preferredai.jp/assets/index-lyzY8EKj.js), and each links either to an in-app notice
+  or to a PFN press release. Titles are reproduced in the Japanese in which PFN publishes them, with
+  an English gloss.
+scheme:
+  versioning: Model-ID based (see lifecycle/preferred-networks-lifecycle.yml)
+  current_version: plamo-3.0-prime
+  categories: [新機能 (new feature), お知らせ (notice), 改善 (improvement), 機能紹介 (feature introduction)]
+  language: Japanese
+  machine_readable: false
+  rss: not published
+entry_count: 15
+entries:
+- date: '2026-06-22'
+  category: new-feature
+  title: PLaMo 3.0 Prime がリリースされました
+  title_en: PLaMo 3.0 Prime released
+  highlights: Reasoning support, 256k context length, improved Japanese performance and cost efficiency
+  breaking: false
+  link: https://www.preferred.jp/ja/news/pr20260622
+- date: '2026-06-22'
+  category: notice
+  title: PLaMo API 新プランへの移行および利用規約改定に関するお知らせ
+  title_en: Migration to the new PLaMo API plans and revision of the terms of use
+  highlights: >-
+    Three plans introduced (Free / Standard / Provider, with only Standard and Provider available at
+    release); terms of use revised; PLaMo 2.2 Prime and earlier retired at end of September 2026;
+    existing customers auto-migrated to Standard.
+  breaking: true
+  link: https://plamo.preferredai.jp/news/20260622-plamo-api-new-plan-migration
+- date: '2026-05-13'
+  category: new-feature
+  title: Snowflake マーケットプレイスで PLaMo 2.2 Prime および PLaMo 翻訳を提供開始
+  title_en: PLaMo 2.2 Prime and PLaMo Translate now offered on the Snowflake Marketplace
+  breaking: false
+- date: '2026-03-19'
+  category: new-feature
+  title: PLaMo 3.0 Prime β 版のモニター企業募集
+  title_en: Call for monitor companies for the PLaMo 3.0 Prime beta
+  breaking: false
+  link: https://www.preferred.jp/ja/news/pr20260319
+- date: '2026-01-28'
+  category: new-feature
+  title: PLaMo 2.2 Primeをリリースしました
+  title_en: PLaMo 2.2 Prime released
+  note: Models at and below 2.2 were consolidated onto plamo-2.2-prime on this date
+  breaking: true
+- date: '2026-01-05'
+  category: notice
+  title: 2025 年日経優秀製品・サービス賞 最優秀賞 受賞キャンペーンのお知らせ
+  title_en: Campaign marking the 2025 Nikkei Award for Excellent Products and Services (top prize)
+  breaking: false
+- date: '2025-10-07'
+  category: new-feature
+  title: PLaMo 2.1 Primeをリリースしました
+  title_en: PLaMo 2.1 Prime released
+  breaking: false
+  link: https://www.preferred.jp/ja/news/pr20251007-2/
+- date: '2025-09-30'
+  category: new-feature
+  title: PLaMo翻訳サブスクリプションサービスを2025年10月10日に提供開始します
+  title_en: PLaMo Translate subscription service launching 2025-10-10
+  breaking: false
+  link: https://www.preferred.jp/ja/news/pr20250930/
+- date: '2025-05-27'
+  category: new-feature
+  title: PLaMo翻訳をリリースしました
+  title_en: PLaMo Translate released
+  breaking: false
+  link: https://www.preferred.jp/ja/news/pr20250527/
+- date: '2025-05-22'
+  category: new-feature
+  title: PLaMo 2.0 Prime をリリースしました
+  title_en: PLaMo 2.0 Prime released
+  breaking: false
+  link: https://www.preferred.jp/ja/news/pr20250522/
+- date: '2025-05-22'
+  category: notice
+  title: PLaMo 1.0 Prime の提供終了について
+  title_en: End of service for PLaMo 1.0 Prime
+  breaking: true
+- date: '2024-12-02'
+  category: new-feature
+  title: フラッグシップモデルPLaMo Primeを新発売
+  title_en: Flagship model PLaMo Prime launched
+  breaking: false
+- date: '2024-12-02'
+  category: notice
+  title: PLaMo β版 トライアルの終了について
+  title_en: End of the PLaMo beta trial
+  breaking: true
+- date: '2024-10-09'
+  category: new-feature
+  title: PLaMo β版 に 自動分類機能が加わりました
+  title_en: Automatic classification added to the PLaMo beta
+  breaking: false
+- date: '2024-09-06'
+  category: new-feature
+  title: PLaMo β版 に Function Calling 機能が具備されました
+  title_en: Function Calling added to the PLaMo beta
+  breaking: false
+evidence:
+- url: https://plamo.preferredai.jp/news
+  status: 200
+  note: HTTP 200; client-rendered SPA shell.
+- url: https://plamo.preferredai.jp/assets/index-lyzY8EKj.js
+  status: 200
+  note: Application bundle containing the verbatim news entries reproduced above.

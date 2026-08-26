@@ -1,23 +1,129 @@
 aid: preferred-networks
 name: Preferred Networks
-description: 'Preferred Networks is a company surfaced via the API Evangelist harvest backlog (source:
-  secondary-market) and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Preferred Networks, Inc. (PFN) is a Tokyo-based AI company founded in March 2014 that vertically
+  integrates the AI value chain from its own MN-Core AI processors and supercomputing infrastructure
+  through to generative-AI foundation models, solutions and products. PFN develops PLaMo, a Japanese
+  large language model built fully from scratch, and offers it commercially through the cloud-hosted
+  PLaMo API — an OpenAI-compatible chat-completions, tokenize and models service at
+  api.platform.preferredai.jp — alongside on-premises, Amazon Bedrock Marketplace, Snowflake and edge
+  (PLaMo Lite) deployment options. PFN also maintains widely used open-source machine-learning
+  software including Optuna, Chainer, PFRL, pytorch-pfn-extras and the PLaMo Translate CLI, which
+  doubles as a locally hosted MCP server.
+image: https://www.preferred.jp/images/ogp.png
 url: https://raw.githubusercontent.com/api-evangelist/preferred-networks/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
 - Company
-apis: []
+- Artificial Intelligence
+- Machine Learning
+- Large Language Models
+- Generative AI
+- LLM Inference
+- Foundation Models
+- Japan
+- Semiconductors
+- Supercomputing
+- Translation
+- MCP
+apis:
+- name: PLaMo API
+  description: >-
+    The PLaMo API is Preferred Networks' cloud service for its domestically developed PLaMo large
+    language models. Its interface is compatible with the OpenAI API, so existing OpenAI/LangChain
+    client code works by pointing the base URL at https://api.platform.preferredai.jp/v1 and
+    supplying a PLaMo API key as a bearer token. The published surface is three endpoints — Chat
+    Completions (streaming SSE, function calling, JSON-Schema structured outputs and reasoning
+    controls), Tokenize, and Models (index + retrieve) — served against the plamo-3.0-prime family.
+  image: https://www.preferred.jp/images/ogp.png
+  humanURL: https://docs.plamo.preferredai.jp/en/
+  baseURL: https://api.platform.preferredai.jp/v1
+  tags:
+  - Large Language Models
+  - Generative AI
+  - Chat Completions
+  - OpenAI Compatible
+  - Tokenization
+  - Japan
+  properties:
+  - type: Documentation
+    url: https://docs.plamo.preferredai.jp/en/
+  - type: APIReference
+    url: https://docs.plamo.preferredai.jp/en/api
+  - type: GettingStarted
+    url: https://docs.plamo.preferredai.jp/en/getting-started
+  - type: Console
+    url: https://console.platform.preferredai.jp/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/preferred-networks-domain-security.yml
 - type: Website
-  url: https://www.hiive.com/securities/preferred-networks-stock
+  url: https://www.preferred.jp/en/
+- type: DeveloperPortal
+  url: https://plamo.preferredai.jp/api
+- type: Documentation
+  url: https://docs.plamo.preferredai.jp/en/
+- type: APIReference
+  url: https://docs.plamo.preferredai.jp/en/api
+- type: GettingStarted
+  url: https://docs.plamo.preferredai.jp/en/getting-started
+- type: Support
+  url: https://support.plamo.preferredai.jp/hc/ja
+- type: Blog
+  url: https://tech.preferred.jp/en/blog/
+- type: GitHubOrganization
+  url: https://github.com/pfnet
+- type: Pricing
+  url: https://plamo.preferredai.jp/api
+- type: SignUp
+  url: https://plamo.preferredai.jp/signup
+- type: TermsOfService
+  url: https://plamo.preferredai.jp/info/terms
+- type: PrivacyPolicy
+  url: https://www.preferred.jp/en/policy/
+- type: Examples
+  url: https://github.com/pfnet-research/plamo-examples
+- type: Plans
+  url: plans/preferred-networks-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/preferred-networks-rate-limits.yml
+- type: Authentication
+  url: authentication/preferred-networks-authentication.yml
+- type: Conventions
+  url: conventions/preferred-networks-conventions.yml
+- type: Lifecycle
+  url: lifecycle/preferred-networks-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/preferred-networks-lifecycle.yml
+- type: ChangeLog
+  url: changelog/preferred-networks-changelog.yml
+- type: DataModel
+  url: data-model/preferred-networks-data-model.yml
+- type: Conformance
+  url: conformance/preferred-networks-conformance.yml
+- type: Compliance
+  url: security/preferred-networks-trust-center.yml
+- type: Packages
+  url: packages/preferred-networks-packages.yml
+- type: CLI
+  url: cli/preferred-networks-cli.yml
+- type: MCPServer
+  url: mcp/preferred-networks-mcp.yml
+- type: Sandbox
+  url: sandbox/preferred-networks-sandbox.yml
+- type: LLMsTxt
+  url: llms/preferred-networks-llms.txt
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1

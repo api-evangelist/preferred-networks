@@ -1,0 +1,173 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/api
+name: Preferred Networks PLaMo API data model
+description: >-
+  Entity model for the PLaMo API. PFN publishes no OpenAPI, but the API reference carries a complete
+  "Object List" naming every request and response object and its fields; the graph below is
+  transcribed from that list rather than derived from a spec. Relationship edges are read from the
+  documented field types (an object whose field type is another named object).
+entity_count: 20
+entities:
+- name: ChatCompletion
+  kind: response
+  operation: POST /v1/chat/completions
+  fields:
+  - {name: id, type: string, note: 'Unique per message, form chat-<hex>'}
+  - {name: choices, type: array of ChoiceObject}
+  - {name: created, type: integer, note: Unix timestamp}
+  - {name: model, type: string}
+  - {name: object, type: string, note: Always chat.completion}
+  - {name: usage, type: UsageObject}
+- name: ChatCompletionChunk
+  kind: response
+  operation: POST /v1/chat/completions (stream=true)
+  fields:
+  - {name: id, type: string}
+  - {name: choices, type: array of StreamChoiceObject}
+  - {name: created, type: integer}
+  - {name: model, type: string}
+  - {name: object, type: string, note: Always chat.completion.chunk}
+  - {name: usage, type: UsageObject}
+- name: MessageObject
+  kind: request
+  fields:
+  - {name: content, type: string, required: true}
+  - {name: role, type: string, required: true, enum: [system, user, assistant]}
+  - {name: name, type: string}
+  - {name: reasoning, type: string}
+  - {name: reasoning_content, type: string}
+- name: ReasoningObject
+  kind: request
+  fields:
+  - {name: summary, type: string, enum: [auto, concise, detailed]}
+  - {name: effort, type: string, enum: [none, medium]}
+- name: ResponseFormatObject
+  kind: request
+  fields:
+  - {name: type, type: string, required: true, note: Must be json_schema}
+  - {name: json_schema, type: ResponseFormatJsonSchemaObject, required: true}
+- name: ResponseFormatJsonSchemaObject
+  kind: request
+  fields:
+  - {name: name, type: string, required: true}
+  - {name: description, type: string}
+  - {name: schema, type: object, required: true, note: A JSON Schema document}
+  - {name: strict, type: boolean, default: false}
+- name: StreamOptionObject
+  kind: request
+  fields:
+  - {name: include_usage, type: boolean}
+- name: ChatCompletionToolsObject
+  kind: request
+  fields:
+  - {name: type, type: string, note: Must be function}
+  - {name: function, type: ChatCompletionToolsFunctionObject}
+- name: ChatCompletionToolsFunctionObject
+  kind: request
+  fields:
+  - {name: name, type: string}
+  - {name: description, type: string}
+  - {name: parameters, type: string, note: JSON Schema describing the function arguments}
+- name: ChatCompletionToolChoiceObject
+  kind: request
+  fields:
+  - {name: type, type: string, note: Must be function}
+  - {name: function, type: ChatCompletionToolChoiceFunctionObject}
+- name: ChatCompletionToolChoiceFunctionObject
+  kind: request
+  fields:
+  - {name: name, type: string}
+- name: ChoiceObject
+  kind: response
+  fields:
+  - {name: index, type: integer}
+  - {name: finish_reason, type: string, enum: [stop, length]}
+  - {name: logprobs, type: 'null', note: Currently not supported}
+  - {name: message, type: ChatMessageObject}
+  - {name: stop_reason, type: integer|string|null, note: Currently not supported}
+- name: ChatMessageObject
+  kind: response
+  fields:
+  - {name: content, type: string}
+  - {name: reasoning, type: string|null}
+  - {name: reasoning_content, type: string|null}
+  - {name: role, type: string, enum: [system, user, assistant]}
+  - {name: tool_calls, type: ChatMessageToolCallsObject}
+- name: ChatMessageToolCallsObject
+  kind: response
+  fields:
+  - {name: id, type: string}
+  - {name: type, type: string, note: Must be function}
+  - {name: function, type: ChatMessageToolCallsFunctionObject}
+- name: ChatMessageToolCallsFunctionObject
+  kind: response
+  fields:
+  - {name: name, type: string}
+  - {name: arguments, type: string, note: JSON-encoded arguments}
+- name: StreamChoiceObject
+  kind: response
+  fields:
+  - {name: index, type: integer}
+  - {name: finish_reason, type: string, enum: [stop, length]}
+  - {name: logprobs, type: 'null'}
+  - {name: delta, type: ChatMessageDeltaObject}
+  - {name: stop_reason, type: integer|string|null}
+- name: ChatMessageDeltaObject
+  kind: response
+  fields:
+  - {name: content, type: string, note: May be absent, e.g. on a role-assignment chunk}
+  - {name: reasoning, type: string|null}
+  - {name: reasoning_content, type: string|null}
+  - {name: role, type: string}
+- name: UsageObject
+  kind: response
+  fields:
+  - {name: completion_tokens, type: integer}
+  - {name: prompt_tokens, type: integer, note: Present in published response examples}
+  - {name: total_tokens, type: integer, note: Present in published response examples}
+  documentation_gap: >-
+    The reference's UsageObject table lists only completion_tokens, while every published response
+    example also returns prompt_tokens and total_tokens. The object table is incomplete.
+- name: ModelObject
+  kind: response
+  operation: GET /v1/models, GET /v1/models/{model}
+  fields:
+  - {name: id, type: string, note: Usable as the model request parameter}
+  - {name: created, type: integer}
+  - {name: object, type: string, note: Always model}
+  - {name: owned_by, type: string, note: Always system}
+- name: TokenizeResult
+  kind: response
+  operation: POST /v1/tokenize
+  fields:
+  - {name: count, type: integer}
+  - {name: max_model_len, type: integer}
+  - {name: tokens, type: array of integer}
+relationships:
+- {from: ChatCompletion, to: ChoiceObject, type: has_many, via: choices}
+- {from: ChatCompletion, to: UsageObject, type: has_one, via: usage}
+- {from: ChatCompletionChunk, to: StreamChoiceObject, type: has_many, via: choices}
+- {from: ChatCompletionChunk, to: UsageObject, type: has_one, via: usage}
+- {from: ChoiceObject, to: ChatMessageObject, type: has_one, via: message}
+- {from: StreamChoiceObject, to: ChatMessageDeltaObject, type: has_one, via: delta}
+- {from: ChatMessageObject, to: ChatMessageToolCallsObject, type: has_one, via: tool_calls}
+- {from: ChatMessageToolCallsObject, to: ChatMessageToolCallsFunctionObject, type: has_one, via: function}
+- {from: ChatCompletionToolsObject, to: ChatCompletionToolsFunctionObject, type: has_one, via: function}
+- {from: ChatCompletionToolChoiceObject, to: ChatCompletionToolChoiceFunctionObject, type: has_one, via: function}
+- {from: ResponseFormatObject, to: ResponseFormatJsonSchemaObject, type: has_one, via: json_schema}
+- {from: ChatCompletionRequest, to: MessageObject, type: has_many, via: messages}
+- {from: ChatCompletionRequest, to: ReasoningObject, type: has_one, via: reasoning}
+- {from: ChatCompletionRequest, to: ResponseFormatObject, type: has_one, via: response_format}
+- {from: ChatCompletionRequest, to: StreamOptionObject, type: has_one, via: stream_options}
+- {from: ChatCompletionRequest, to: ChatCompletionToolsObject, type: has_many, via: tools}
+- {from: TokenizeRequest, to: MessageObject, type: has_many, via: messages}
+- {from: ModelsList, to: ModelObject, type: has_many, via: data}
+id_prefixes:
+- {entity: ChatCompletion, prefix: 'chat-', example: chat-eb6da3a371c546c8a8c4629794328c5b}
+- {entity: ModelObject, prefix: 'plamo-', example: plamo-3.0-prime}
+account_model:
+  note: >-
+    Tenant, project, member, role and API key are real first-class entities of the PLaMo platform but
+    are console-only; no public API is documented for them. See
+    authentication/preferred-networks-authentication.yml.

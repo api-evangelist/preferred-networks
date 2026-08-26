@@ -1,0 +1,106 @@
+generated: '2026-08-26'
+method: searched
+source: registry metadata (pypi.org/pypi/<pkg>/json) plus github.com/pfnet and github.com/pfnet-research
+name: Preferred Networks packages
+description: >-
+  Preferred Networks publishes no first-party client SDK for the PLaMo API. Its own quickstart
+  instructs developers to use the third-party openai and langchain-openai libraries with the base URL
+  repointed, which is a deliberate consequence of the API being OpenAI-compatible — so the absence of
+  a PLaMo SDK is a design choice, not neglect, and no SDKs pointer is emitted for this provider. The
+  packages below are the first-party libraries and tools PFN does publish; only plamo-translate is a
+  PLaMo product package. Versions and dates are read from the PyPI JSON metadata endpoint.
+sdk_for_plamo_api:
+  first_party: none
+  documented_clients:
+  - {name: openai, registry: pypi, first_party: false, note: Third-party OpenAI client, documented by PFN with base_url override}
+  - {name: langchain-openai, registry: pypi, first_party: false, note: Third-party LangChain integration, documented by PFN with base_url override}
+  source: https://docs.plamo.preferredai.jp/en/getting-started
+packages:
+- name: plamo-translate
+  registry: pypi
+  url: https://pypi.org/project/plamo-translate/
+  repository: https://github.com/pfnet/plamo-translate-cli
+  official: true
+  kind: cli
+  language: python
+  license: Apache-2.0
+  version: 1.0.5
+  published: '2025-10-18'
+  note: >-
+    First-party CLI for the plamo-2-translate model, running locally (MLX on Apple Silicon). Also
+    starts a local MCP server — see mcp/preferred-networks-mcp.yml and cli/preferred-networks-cli.yml.
+- name: pytorch-pfn-extras
+  registry: pypi
+  url: https://pypi.org/project/pytorch-pfn-extras/
+  repository: https://github.com/pfnet/pytorch-pfn-extras
+  official: true
+  kind: library
+  language: python
+  version: 0.9.0
+  published: '2026-02-25'
+  note: Supplementary components for PyTorch research and development; PyPI author is "Preferred Networks, Inc.".
+- name: pfio
+  registry: pypi
+  url: https://pypi.org/project/pfio/
+  repository: https://github.com/pfnet/pfio
+  official: true
+  kind: library
+  language: python
+  version: 2.10.0
+  published: '2026-05-22'
+  note: IO library providing a unified API across filesystems.
+- name: pysen
+  registry: pypi
+  url: https://pypi.org/project/pysen/
+  repository: https://github.com/pfnet/pysen
+  official: true
+  kind: tooling
+  language: python
+  version: 0.12.1
+  published: '2026-07-21'
+  note: Python linting configuration tool.
+- name: optuna
+  registry: pypi
+  url: https://pypi.org/project/optuna/
+  repository: https://github.com/optuna/optuna
+  official: true
+  kind: library
+  language: python
+  version: 4.9.0
+  published: '2026-06-01'
+  note: >-
+    Hyperparameter optimisation framework created at Preferred Networks in 2018 and now developed in
+    its own GitHub organisation. Recorded as first-party by origin; governance has moved outside PFN.
+- name: pfrl
+  registry: pypi
+  url: https://pypi.org/project/pfrl/
+  repository: https://github.com/pfnet/pfrl
+  official: true
+  kind: library
+  language: python
+  version: 0.4.0
+  published: '2023-07-16'
+  status: dormant
+  note: PyTorch deep reinforcement learning library; last release 2023-07-16.
+- name: chainer
+  registry: pypi
+  url: https://pypi.org/project/chainer/
+  repository: https://github.com/chainer/chainer
+  official: true
+  kind: library
+  language: python
+  version: 7.8.1
+  published: '2022-01-05'
+  status: maintenance-only
+  note: >-
+    The deep learning framework PFN released in 2015; development moved to maintenance mode in 2019
+    when PFN migrated to PyTorch. Last release 2022-01-05.
+absent:
+- {registry: npm, checked: true, result: no first-party PLaMo or PFN client package found}
+- {registry: pypi, package: plamo, status: 404, note: The bare name plamo is not published.}
+- {registry: maven-central, checked: true, result: none found}
+- {registry: nuget, checked: true, result: none found}
+- {registry: rubygems, checked: true, result: none found}
+- {registry: crates.io, checked: true, result: none found}
+- {registry: packagist, checked: true, result: none found}
+- {registry: pkg.go.dev, checked: true, result: none found}

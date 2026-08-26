@@ -1,0 +1,58 @@
+generated: '2026-08-26'
+method: searched
+source: https://github.com/pfnet/plamo-translate-cli
+name: Preferred Networks MCP surface
+description: >-
+  Preferred Networks ships one real MCP server, and it is not for the PLaMo API. The first-party
+  plamo-translate CLI starts an MCP server as part of its `server` command, exposing the local
+  plamo-2-translate model to MCP clients such as Claude Desktop. It is a local install that a human
+  must run on a machine before any agent can reach it; there is no hosted PLaMo MCP endpoint and the
+  PLaMo API documentation never mentions MCP.
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: pip install plamo-translate  # then: plamo-translate server
+  package: https://pypi.org/project/plamo-translate/
+  auth: none
+  verified: searched
+  note: >-
+    Recorded as local-stdio because it is a locally installed server with no vendor-hosted URL. Its
+    transport is technically local streamable HTTP rather than stdio: `plamo-translate server` binds
+    http://localhost:8000/mcp (start port configurable via PLAMO_TRANSLATE_CLI_SERVER_START_PORT) and
+    `plamo-translate show-claude-config` emits an mcpServers entry that bridges to it with
+    `npx -y mcp-remote http://localhost:8000/mcp --allow-http --transport http-only`. localhost is
+    not an agent-reachable endpoint, so the endpoint field is deliberately left null.
+server:
+  name: plamo-translate
+  vendor_hosted: false
+  repository: https://github.com/pfnet/plamo-translate-cli
+  license: Apache-2.0
+  runtime: python (>=3.10, <=3.14); MLX backend on Apple Silicon
+  dependency: 'mcp[cli]'
+  local_url: http://localhost:8000/mcp
+  client_config_command: plamo-translate show-claude-config
+tools:
+  status: not-introspected
+  method: none
+  note: >-
+    tools/list was not called. The server does not exist until a user installs the package and starts
+    it locally, so there is no remote endpoint this pipeline can POST an introspection request to, and
+    no tool list is published in the repository README. The server's capability is translation between
+    the languages listed in cli/preferred-networks-cli.yml. Tool names and inputSchemas require a
+    local install to enumerate; none are guessed here.
+plamo_api_mcp:
+  published: false
+  probed:
+  - {url: 'https://api.platform.preferredai.jp/.well-known/oauth-authorization-server', status: 404}
+  - {url: 'https://api.platform.preferredai.jp/.well-known/oauth-protected-resource', status: 404}
+  - {url: 'https://api.platform.preferredai.jp/.well-known/ai-plugin.json', status: 404}
+  note: >-
+    No hosted MCP server for the PLaMo API was found in the documentation, on the product site, in
+    the pfnet or pfnet-research GitHub organisations, or at any well-known path. No endpoint URL was
+    guessed.
+crosswalk:
+  emitted: false
+  reason: >-
+    A tool crosswalk requires an OpenAPI to bind tools to operationIds. Preferred Networks publishes
+    no OpenAPI (see the contract-discovery probes recorded in conventions/ and conformance/), and the one MCP server it
+    ships wraps a local translation model rather than the REST API, so there is nothing to bind.

@@ -1,0 +1,94 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/api
+name: Preferred Networks PLaMo API lifecycle
+description: >-
+  Versioning, deprecation and end-of-life posture for the PLaMo API. PFN does not publish a named
+  deprecation policy document, but it does publish dated, model-by-model and endpoint-by-endpoint
+  retirement notices in its API reference and in its product news feed, including migration
+  instructions — which is a real, verifiable deprecation practice rather than a stated policy.
+versioning:
+  api_path: /v1
+  scheme: >-
+    A single stable /v1 path segment on the API host, with substantive change carried in model IDs
+    rather than in the URL. Each model ID states its own context length, maximum output tokens and
+    reasoning capability.
+  models:
+  - id: plamo-3.0-prime
+    context_length_tokens: 262144
+    max_output_tokens: 20000
+    reasoning: true
+    status: current
+  - id: plamo-3.0-prime-beta
+    context_length_tokens: 65536
+    max_output_tokens: 20000
+    reasoning: true
+    status: deprecated
+    end_of_life: '2026-07-31'
+  - id: plamo-2.2-prime
+    context_length_tokens: 32768
+    max_output_tokens: 4096
+    reasoning: false
+    status: deprecated
+    end_of_life: '2026-09-30'
+deprecation_policy:
+  published: true
+  form: Dated retirement notices in the API reference and the PLaMo news feed
+  url: https://docs.plamo.preferredai.jp/en/api
+  sunset_header: not documented
+  deprecation_header: not documented
+  rfc8594: false
+  notice_period_documented: false
+  note: >-
+    PFN states retirement dates in advance and describes the migration path, but publishes neither a
+    named deprecation policy with a guaranteed notice period nor RFC 8594 Sunset/Deprecation response
+    headers, so a running client receives no machine-readable warning.
+deprecations:
+- subject: plamo-3.0-prime-beta model
+  type: model
+  announced: '2026-06-22'
+  end_of_life: '2026-07-31'
+  replacement: plamo-3.0-prime
+  source: https://docs.plamo.preferredai.jp/en/api
+- subject: plamo-2.2-prime and all earlier models
+  type: model
+  announced: '2026-06-22'
+  end_of_life: '2026-09-30'
+  replacement: plamo-3.0-prime
+  note: >-
+    Support is merged into plamo-3.0-prime. Models at and below plamo-2.2-prime were consolidated
+    onto plamo-2.2-prime on 2026-01-28. Existing customers were migrated automatically to the
+    Standard plan, with the previous terms of use held open for legacy models until retirement.
+  source: https://docs.plamo.preferredai.jp/en/api
+- subject: legacy API host https://platform.preferredai.jp/api/completion/v1
+  type: endpoint
+  end_of_life: not stated
+  status: deprecated-still-serving
+  replacement: https://api.platform.preferredai.jp/v1
+  note: >-
+    "The old API endpoints remain available, but they are deprecated." No retirement date is given
+    for the legacy host. Probed 2026-08-26: https://platform.preferredai.jp/ returns HTTP 404, so the
+    host root is not browsable even though the API path is stated to still serve.
+  source: https://docs.plamo.preferredai.jp/en/api
+- subject: Terms of use for PLaMo 2.2 Prime and earlier
+  type: terms
+  announced: '2026-06-22'
+  replacement: https://plamo.preferredai.jp/info/terms
+  legacy_document: https://plamo.preferredai.jp/info/terms-plamo-2-or-earlier-models
+status_page:
+  published: false
+  probed:
+  - url: https://status.plamo.preferredai.jp/
+    status: DNS NXDOMAIN
+  note: >-
+    No status page was found on any PFN or PLaMo host and none is linked from the documentation,
+    product site or support centre. No StatusPage pointer is emitted.
+sla:
+  published: false
+  note: >-
+    No availability or latency SLA is published. The Provider plan advertises "priority processing
+    under load" as a commercial differentiator, but attaches no numeric target.
+support:
+  channel: https://support.plamo.preferredai.jp/
+  email: plamo-support@preferredai.jp
+  tiers: Documentation (Free) / email (Standard) / dedicated contact (Provider)

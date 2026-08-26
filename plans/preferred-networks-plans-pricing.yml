@@ -1,0 +1,128 @@
+generated: '2026-08-26'
+method: searched
+source: https://plamo.preferredai.jp/api
+name: Preferred Networks PLaMo API plans and pricing
+description: >-
+  Plan and price data for the PLaMo API, read from Preferred Networks' own PLaMo product site
+  (plamo.preferredai.jp/api). The pricing page is a client-rendered single-page application; the
+  plan table below was read verbatim from the application's own data structures served at
+  https://plamo.preferredai.jp/assets/index-lyzY8EKj.js, and the existence of the Standard plan is
+  independently confirmed in PFN's own press release for PLaMo 3.0 Prime
+  (https://www.preferred.jp/ja/news/pr20260622), which prices its benchmark cost comparison using
+  "PLaMo API の standard プラン" rates. Values are recorded in the currency and units the provider
+  publishes (Japanese yen per 1M tokens); they are not converted.
+currency: JPY
+billing_period: usage-based (monthly billing per tenant)
+plan_count: 4
+plans:
+- name: Free
+  slug: free
+  audience: Trial / evaluation
+  status: announced-not-yet-available
+  price:
+    model: plamo-3.0-prime
+    unit: 1M tokens
+    input: '0'
+    output: '0'
+  included: PLaMo API core features at no charge
+  limits: Usage volume and rate limits restricted; standard rate-limit tier
+  note: >-
+    Published on the pricing page with the CTA disabled and labelled 準備中 ("in preparation") — PFN's
+    2026-06-22 plan-migration notice states that only Standard and Provider are available at release.
+- name: Standard
+  slug: standard
+  audience: Individuals and small organisations
+  status: available
+  price:
+    model: plamo-3.0-prime
+    unit: 1M tokens
+    input: '60'
+    output: '250'
+    price_note: >-
+      Input/output unit price up to 128k tokens; above 128k tokens the same rate applies during the
+      release-commemoration period.
+  included: Everything in Free, plus zero data retention, no training on submitted data, email support
+  overage: Pure usage-based billing with no usage ceiling
+  limits: Rate limits "significantly relaxed" versus Free; tenant billing quota applies (see rate-limits/)
+- name: Provider
+  slug: provider
+  audience: Generative-AI service providers
+  status: available-on-approval
+  price:
+    model: plamo-3.0-prime
+    unit: 1M tokens
+    input: Custom
+    output: Custom
+    price_note: Individually quoted according to use case and scale; use-case review required.
+  included: >-
+    Everything in Standard, plus full reasoning body (not only the summary), per-customer PLaMo
+    Guardrail policy tuning, priority processing under load, and a dedicated support contact.
+- name: On-Premise
+  slug: on-premise
+  audience: Customers running in their own environment (closed network, VPC, edge)
+  status: available-on-quote
+  price:
+    unit: n/a
+    input: Contact sales
+    output: Contact sales
+  included: >-
+    Model weights only (deployed to the customer's own inference server), Docker image
+    (Kubernetes / VM / data centre), model plus server appliance, Snowflake Marketplace /
+    Sakura AI Engine / Amazon SageMaker distribution, or the lightweight edge model PLaMo Lite.
+feature_matrix:
+  rows:
+  - item: Chat Completions API (OpenAI compatible)
+    free: true
+    standard: true
+    provider: true
+  - item: ZDR (input data not retained)
+    free: false
+    standard: true
+    provider: true
+  - item: Input data not used for training
+    free: false
+    standard: true
+    provider: true
+  - item: Usage-based billing with no usage ceiling
+    free: false
+    standard: true
+    provider: true
+  - item: Rate limits
+    free: standard
+    standard: significantly relaxed
+    provider: individually configured (negotiable)
+  - item: Priority processing under load
+    free: false
+    standard: false
+    provider: true
+  - item: PLaMo Guardrail (free of charge)
+    free: standard policy
+    standard: standard policy
+    provider: per-customer policy
+  - item: Reasoning returned
+    free: summary only
+    standard: summary only
+    provider: reasoning body + summary
+  - item: Support
+    free: documentation
+    standard: email support
+    provider: dedicated contact incl. meetings
+  - item: Per-customer customisation
+    free: false
+    standard: false
+    provider: negotiable
+credits:
+  - description: Release campaign credit grants recorded in the signup application's promotion table
+    note: >-
+      Promotion codes carrying yen-denominated credit (e.g. an ICPC 2025 Yokohama grant of 20,000 yen
+      valid 2025-08-01 to 2026-07-31) are applied at signup. Values are campaign-specific and expire.
+evidence:
+- url: https://plamo.preferredai.jp/api
+  status: 200
+  note: HTTP 200; client-rendered SPA shell, plan data served in the application bundle.
+- url: https://plamo.preferredai.jp/assets/index-lyzY8EKj.js
+  status: 200
+  note: Application bundle containing the verbatim plan/price table reproduced above.
+- url: https://www.preferred.jp/ja/news/pr20260622
+  status: 200
+  note: PFN press release referencing the PLaMo API "standard" plan pricing.

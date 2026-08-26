@@ -1,0 +1,137 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/api
+name: Preferred Networks PLaMo API conventions
+description: >-
+  Cross-cutting runtime semantics for the PLaMo API, read from the provider's API reference,
+  quickstart, console manual and limitations pages. There is no published OpenAPI for this API, so
+  nothing here is derived from a spec; every entry is either quoted from the documentation or
+  recorded as "not documented", which is itself the finding.
+auth:
+  style: bearer-token
+  header: Authorization
+  detail: See authentication/preferred-networks-authentication.yml
+base_url: https://api.platform.preferredai.jp/v1
+compatibility:
+  standard: OpenAI Chat Completions API
+  claim: >-
+    "PLaMo API's interface is compatible with OpenAI API, so users can keep existing code and still
+    use LLM libraries such as openai-python and LangChain." Integration is documented as changing
+    base_url to https://api.platform.preferredai.jp/v1 and supplying a PLaMo key.
+  documented_deltas:
+  - n is restricted to 1 or 2
+  - logprobs and stop_reason are present in responses but "currently not supported"
+  - reasoning and reasoning_content are PLaMo extensions on message/delta and on the request body
+  - reasoning_effort accepts only none or medium
+  - a tokenize endpoint (/v1/tokenize) exists that has no OpenAI equivalent
+idempotency:
+  supported: false
+  documented: false
+  header: null
+  note: >-
+    No Idempotency-Key header, request-deduplication window, or retry-safety guidance appears
+    anywhere in the PLaMo documentation. The seed parameter is explicitly not a determinism
+    guarantee — the docs state that "depending on internal state, different results may occur even
+    when using the same seed value". An agent retrying a failed chat completion must assume the call
+    may be executed twice and billed twice.
+pagination:
+  style: none
+  note: >-
+    The three published endpoints return either a single generation, a token array, or a complete
+    model list; no cursor, page, limit or offset parameter is documented.
+field_expansion:
+  supported: false
+metadata:
+  supported: partial
+  fields:
+  - name: safety_identifier
+    description: >-
+      Optional caller-supplied user identifier used by PFN for anomaly detection. The docs warn it
+      may be persisted server-side and must not contain personal or sensitive data.
+request_id_tracing:
+  header: not documented
+  body_field: id
+  note: >-
+    Every chat completion response carries an id of the form chat-<hex>, and streaming chunks repeat
+    the same id, so a generation can be correlated across a stream. No request-id response header is
+    documented.
+versioning:
+  api_version: Path segment /v1
+  model_version: >-
+    Versioning is carried primarily in the model ID (plamo-3.0-prime, plamo-3.0-prime-beta,
+    plamo-2.2-prime), each with its own context length, maximum output tokens, reasoning capability
+    and end-of-life date. See lifecycle/preferred-networks-lifecycle.yml.
+  detail: See lifecycle/preferred-networks-lifecycle.yml
+error_envelope:
+  shape: '{"message": "<text>"}'
+  content_type: application/json
+  rfc9457: false
+  observed:
+  - url: https://api.platform.preferredai.jp/v1/models
+    status: 400
+    body: '{"message":"missing key in request header"}'
+  - url: https://api.platform.preferredai.jp/openapi.json
+    status: 404
+    body: '{"message":"Not Found"}'
+  note: >-
+    PFN publishes no error-code reference and no catalogue of error types. The only error semantics
+    stated in the documentation are behavioural: an error is returned when input tokens + max_tokens
+    exceeds the model context length (including the case where max_tokens is left at its 4096
+    default), and an error is returned when a rate limit, spend quota or resource quota is exceeded.
+    Because there is no published catalogue, no errors/ artifact was written for this provider.
+rate_limit_signaling:
+  headers: not documented
+  detail: See rate-limits/preferred-networks-rate-limits.yml
+streaming:
+  supported: true
+  transport: server-sent events
+  enable: 'stream: true'
+  termination: 'data: [DONE]'
+  usage_stats: Available before stream close when stream_options.include_usage is true
+structured_output:
+  supported: true
+  mechanism: 'response_format {"type":"json_schema","json_schema":{...}}'
+  strict_mode: 'json_schema.strict (default false); "supported JSON Schema features are limited"'
+function_calling:
+  supported: true
+  request_fields: [tools, tool_choice]
+  response_field: choices[].message.tool_calls
+  note: tool_choice accepts an object, or "none" / "auto" / "required"
+reversibility:
+  grade: na
+  rationale: >-
+    The PLaMo API publishes no write surface. All three documented operations — chat completions,
+    tokenize, and models index/retrieve — are stateless request/response calls that create no
+    server-side resource the caller can later cancel, refund, void or delete. There is consequently
+    no reversal operation to document and no reversal window to state. The only irreversible
+    consequence of a call is metered spend, which the provider bounds ahead of the call rather than
+    after it: tenant quotas, tenant monthly billing limits and per-project budget limits with alerts
+    are all configurable in the console (see plans/ and rate-limits/), and requests are blocked on
+    reach. Account-level mutations that ARE reversible in the console — deleting or re-generating an
+    API key, archiving a project, removing a member — have no public API and so are out of scope for
+    this contract.
+  write_surface: false
+  reversal_operations: []
+  note: >-
+    Recorded as na rather than absent. An invented reversal window would be the most expensive
+    possible error here, and none is published.
+dry_run_mode:
+  supported: na
+  note: >-
+    No dry-run or simulation parameter is documented. The nearest published rehearsal affordance is
+    the /v1/tokenize endpoint, which lets a caller price the input side of a request (token count
+    and the model's maximum length) before spending on a generation; PFN also notes the same
+    tokenizer is published as an open model so the count can be computed locally without a call.
+event_surface:
+  webhooks: false
+  asyncapi: false
+  note: >-
+    PFN publishes no webhooks, event catalogue or streaming/event API for the PLaMo platform. The
+    only streaming is intra-request SSE on chat completions, which is not an event surface. No
+    asyncapi/ artifact was written; this is a genuine absence, not an unprobed gap.
+cross_links:
+  authentication: authentication/preferred-networks-authentication.yml
+  lifecycle: lifecycle/preferred-networks-lifecycle.yml
+  rate_limits: rate-limits/preferred-networks-rate-limits.yml
+  plans: plans/preferred-networks-plans-pricing.yml
+  data_model: data-model/preferred-networks-data-model.yml

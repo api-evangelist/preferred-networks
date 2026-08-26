@@ -1,0 +1,52 @@
+generated: '2026-08-26'
+method: probed
+source: live probes of every Preferred Networks / PLaMo host in apis.yml
+name: Preferred Networks .well-known probe
+description: >-
+  Every /.well-known/ path in the enrichment contract was probed against all four PFN and PLaMo
+  hosts on 2026-08-26. Nothing was served: the API host answers 404 with a JSON message envelope,
+  the documentation host answers 404 with its VitePress 404 page, and the corporate host answers 404
+  with a Next.js error page. No document was saved and no WellKnown or SecurityTxt pointer is
+  emitted — this file records a verified absence.
+hosts:
+- host: api.platform.preferredai.jp
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+- host: docs.plamo.preferredai.jp
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+- host: www.preferred.jp
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+- host: preferred.jp
+  documents:
+  - {path: /.well-known/security.txt, status: 404, file: null}
+  - {path: /.well-known/openid-configuration, status: 404, file: null}
+  - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+  - {path: /.well-known/api-catalog, status: 404, file: null}
+  - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - {path: /.well-known/agent.json, status: 404, file: null}
+  - {path: /.well-known/agent-card.json, status: 404, file: null}
+summary:
+  hosts_probed: 4
+  paths_probed: 28
+  documents_served: 0
+  pointer_emitted: false

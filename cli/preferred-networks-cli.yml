@@ -1,0 +1,37 @@
+generated: '2026-08-26'
+method: searched
+source: https://github.com/pfnet/plamo-translate-cli
+name: PLaMo Translate CLI
+description: >-
+  PFN publishes one first-party command-line tool, plamo-translate, which runs the plamo-2-translate
+  model locally and translates between Japanese, English and 14 experimentally supported languages.
+  It is a local-inference tool, not a client for the hosted PLaMo API — it does not take a PLaMo API
+  key and does not call api.platform.preferredai.jp. There is no CLI for the PLaMo API itself.
+binary: plamo-translate
+repository: https://github.com/pfnet/plamo-translate-cli
+license: Apache-2.0
+language: python
+package: packages/preferred-networks-packages.yml
+covers_api: false
+install:
+- {method: pip, command: pip install plamo-translate}
+- {method: uv, command: uv tool install -p 3.14 plamo-translate}
+requirements:
+  python: '>=3.10,<=3.14'
+  platform: macOS with Apple Silicon (MLX backend); Ollama and vLLM backends stated as planned
+  dependencies: ["mcp[cli]", numba, mlx-lm]
+commands:
+- {command: plamo-translate, description: Interactive translation mode; reads from stdin when piped}
+- {command: plamo-translate --input TEXT, description: Translate a single string (client mode when a server is running)}
+- {command: plamo-translate server, description: Start the local model server, which is also an MCP server}
+- {command: plamo-translate show-claude-config, description: Print an mcpServers JSON block for Claude Desktop}
+flags:
+- {flag: --input, value: TEXT, description: Input text to translate}
+- {flag: --from, value: TEXT, default: English, description: Source language}
+- {flag: --to, value: TEXT, default: Japanese, description: Target language}
+- {flag: --precision, value: 4bit|8bit|bf16, default: 4bit, description: Model weight precision}
+environment:
+- {name: PLAMO_TRANSLATE_CLI_SERVER_START_PORT, description: Starting port for the local server}
+languages:
+  supported: [Japanese, 'Japanese (easy)', English]
+  experimental: [Chinese, Taiwanese, Korean, Arabic, Italian, Indonesian, Dutch, Spanish, Thai, German, French, Vietnamese, Russian]

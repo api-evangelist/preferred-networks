@@ -1,0 +1,70 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/getting-started
+name: Preferred Networks PLaMo API authentication
+description: >-
+  Authentication profile for the PLaMo API, read from the provider's quickstart, console manual and
+  API reference. There is no published OpenAPI to derive securitySchemes from, so every field below
+  comes from the documentation text and from an unauthenticated probe of the API host.
+docs:
+- https://docs.plamo.preferredai.jp/en/getting-started
+- https://docs.plamo.preferredai.jp/en/console
+- https://docs.plamo.preferredai.jp/en/api
+schemes:
+- name: plamo_api_key
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  format: 'Authorization: Bearer ${PLAMO_API_KEY}'
+  description: >-
+    A PLaMo API key issued from the PLaMo API console. The key is presented as an HTTP bearer token.
+    Because the interface is OpenAI-compatible, OpenAI/LangChain client libraries authenticate by
+    reading OPENAI_API_KEY while curl examples read PLAMO_API_KEY; both carry the same PLaMo key.
+  key_prefix: not documented
+  environment_variable: PLAMO_API_KEY (OPENAI_API_KEY when using openai / langchain-openai)
+oauth2: false
+openid_connect: false
+mutual_tls: false
+signed_requests: false
+key_model:
+  tenancy:
+    tenant: >-
+      Top-level management and billing unit. One tenant per PLaMo API billing account; usage across
+      all of its projects is aggregated and billed together.
+    project: >-
+      Unit for managing API keys and budgets inside a tenant. A default project named "Default"
+      exists initially and all tenant members belong to it.
+  key_types:
+  - name: Personal API key
+    scope: One per member, created from the profile page
+    revocation: Immediately invalidated when the member is removed from the tenant
+    accounting: Usage counts only toward the tenant total, not toward a project
+  - name: Project API key
+    scope: Multiple per project, created by a project administrator
+    revocation: Survives removal of project members
+    accounting: Usage counts toward both the project and the tenant total
+  rotation:
+    supported: true
+    mechanism: Re-generate or delete a key from the console
+    semantics: >-
+      Re-generating a key invalidates the old key immediately, with no overlap window; PFN's own
+      guidance is to create a second key and cut traffic over before re-generating.
+roles:
+- name: Tenant Administrator
+  grants: All projects and resources; create/delete projects, set usage limits and alerts, invite and remove tenant members, manage permissions
+- name: Project Administrator
+  grants: Create, delete and re-generate API keys in their projects; add/remove project members (must already be tenant members); view project usage and spend
+- name: Member
+  grants: View usage and spend for projects they belong to; cannot create, delete or re-generate API keys
+invitation_flow: >-
+  A tenant administrator invites a user as either Tenant Administrator or Regular User; after the
+  invitation is accepted, a tenant or project administrator adds them to a project.
+anonymous_probe:
+  url: https://api.platform.preferredai.jp/v1/models
+  status: 400
+  body: '{"message":"missing key in request header"}'
+  note: >-
+    The API rejects a keyless request with HTTP 400 and a plain message envelope rather than 401 with
+    a WWW-Authenticate challenge, so there is no machine-discoverable auth challenge on this API.
+console: https://console.platform.preferredai.jp/

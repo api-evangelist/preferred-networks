@@ -1,0 +1,126 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/api
+name: Preferred Networks PLaMo API conformance
+description: >-
+  Cross-cutting and domain-standard conformance assertions for the PLaMo API. Preferred Networks
+  publishes no OpenAPI, so nothing here is derived from a machine-readable contract; each entry is
+  evidenced against a specific statement or observed response on the provider's own surface. Absence
+  is recorded as conforms:false with the probe that established it.
+standards:
+- id: openai-chat-completions
+  name: OpenAI Chat Completions API (de facto LLM inference interface)
+  conforms: true
+  level: compatible-with-documented-deviations
+  evidence: >-
+    The provider states the interface is compatible with the OpenAI API and that existing code and
+    LLM libraries (openai-python, LangChain) continue to work by pointing base_url at
+    https://api.platform.preferredai.jp/v1. The published surface — POST /v1/chat/completions with
+    messages/model/temperature/top_p/stop/stream/tools/tool_choice/response_format, GET /v1/models,
+    GET /v1/models/{model} — matches the OpenAI shape, and the documented response objects
+    (chat.completion, chat.completion.chunk, model, list) use OpenAI's object names.
+  deviations:
+  - n is restricted to 1 or 2
+  - logprobs and stop_reason are returned but "currently not supported"
+  - reasoning / reasoning_content / reasoning_effort are PLaMo extensions
+  - POST /v1/tokenize has no OpenAI equivalent
+  - no embeddings, images, audio, files, batch, assistants or responses endpoints are published
+  source: https://docs.plamo.preferredai.jp/en/api
+- id: sse
+  name: Server-Sent Events (streaming transport)
+  conforms: true
+  evidence: >-
+    Streaming responses are documented as server-sent events terminating with "data: [DONE]", with
+    per-chunk usage available via stream_options.include_usage.
+  source: https://docs.plamo.preferredai.jp/en/api
+- id: json-schema
+  name: JSON Schema (structured outputs and function parameters)
+  conforms: true
+  evidence: >-
+    response_format {"type":"json_schema","json_schema":{...}} constrains generation to a
+    caller-supplied JSON Schema, with a strict flag; tool function parameters are likewise declared
+    in JSON Schema, and the reference links to json-schema.org.
+  caveat: '"Supported JSON Schema features are limited" — the supported subset is not enumerated.'
+  source: https://docs.plamo.preferredai.jp/en/api
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  scope: PLaMo Translate CLI only, not the PLaMo API
+  evidence: >-
+    `plamo-translate server` starts an MCP server that MCP clients reach at
+    http://localhost:8000/mcp; the package depends on mcp[cli] and ships a show-claude-config
+    command emitting an mcpServers block. The hosted PLaMo API exposes no MCP endpoint.
+  source: https://github.com/pfnet/plamo-translate-cli
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    Authentication is a static bearer API key issued from the console. No authorization server,
+    token endpoint or scope model is documented, and /.well-known/oauth-authorization-server returns
+    404 on api.platform.preferredai.jp.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns HTTP 404 on every PFN and PLaMo host probed.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Errors are returned as {"message":"..."} with content-type application/json, not
+    application/problem+json — observed on an unauthenticated request to /v1/models (HTTP 400) and
+    on /openapi.json (HTTP 404).
+- id: rfc8594
+  name: RFC 8594 Sunset header / deprecation signalling
+  conforms: false
+  evidence: >-
+    Model and endpoint retirements are announced with dates in prose, but no Sunset or Deprecation
+    response header is documented. See lifecycle/preferred-networks-lifecycle.yml.
+- id: ratelimit-headers
+  name: IETF RateLimit header fields
+  conforms: false
+  evidence: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented; the limitations page states
+    only that the API "returns error" on exhaustion.
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returns HTTP 404 on www.preferred.jp, api.platform.preferredai.jp and docs.plamo.preferredai.jp.
+- id: pagination
+  name: Documented pagination
+  conforms: false
+  evidence: No paged collection is exposed; /v1/models returns a complete list.
+- id: idempotency
+  name: Idempotent request replay
+  conforms: false
+  evidence: >-
+    No idempotency key or deduplication window is documented, and seed is explicitly not a
+    determinism guarantee.
+- id: iso-27001
+  name: ISO/IEC 27001
+  conforms: true
+  scope: AI Products and Solutions Division (development, commissioned work, provision of products and services)
+  evidence: >-
+    Certification stated in the corporate site footer and on the AI Governance page. Certificate
+    number, registrar and whether the PLaMo API platform sits inside the certified scope are not
+    published. See security/preferred-networks-trust-center.yml.
+  source: https://www.preferred.jp/en/company/aipolicy
+domain_standard:
+  market: Large language model / generative AI inference APIs
+  assessment: >-
+    This market's de facto interface standard is the OpenAI Chat Completions shape, and the PLaMo API
+    declares conformance to it in its own reference rather than only on a marketing page: the
+    endpoint paths, request parameter names, response object names (chat.completion,
+    chat.completion.chunk, model, list) and the SSE termination sentinel are the OpenAI ones, and the
+    documented integration path is to repoint an existing OpenAI or LangChain client at the PLaMo
+    base URL. A buyer already speaking that interface integrates with no bespoke connector.
+  standard_id: openai-chat-completions
+  conforms: true
+  confidence: high
+  evidence_location: >-
+    https://docs.plamo.preferredai.jp/en/api — endpoint definitions, request-parameter tables and
+    object list; https://docs.plamo.preferredai.jp/en/getting-started — openai and langchain-openai
+    integration examples setting base_url.
+  caveat: >-
+    There is no formal specification body or conformance suite for this de facto standard, and PFN
+    publishes no machine-readable contract, so the claim is verified against documentation and
+    example payloads rather than against a spec.

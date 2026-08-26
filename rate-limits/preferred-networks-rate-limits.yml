@@ -1,0 +1,91 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/limit
+name: Preferred Networks PLaMo API rate limits and quotas
+description: >-
+  Published quotas for the PLaMo API and PLaMo Chat, read from the provider's own "Limitations" page
+  in the PLaMo reference documentation. PFN documents the numeric limits and which of them accept a
+  quota-increase request, but does not document any rate-limit response headers or the HTTP status
+  code returned on exhaustion — the docs say only that "API returns error".
+limit_count: 7
+rate_limits:
+- name: Request rate (legacy models)
+  scope: per-api-key
+  window: 1 minute
+  limit: 1000
+  applies_to: plamo-2.2-prime and earlier models, and translation models
+  quota_increase_requestable: false
+  on_exhaustion: API returns an error (status code not documented)
+- name: Request rate (current models)
+  scope: per-api-key
+  window: 1 minute
+  limit: 100
+  applies_to: plamo-3.0-prime family models
+  quota_increase_requestable: false
+  on_exhaustion: API returns an error (status code not documented)
+- name: Spend quota
+  scope: per-tenant
+  window: 1 month
+  limit: 1000000
+  unit: JPY
+  applies_to: All API usage aggregated across the tenant's projects
+  quota_increase_requestable: true
+  on_exhaustion: API requests are blocked once the quota is reached
+- name: API keys
+  scope: per-tenant
+  limit: 10
+  resource: api_key
+  quota_increase_requestable: true
+  on_exhaustion: Creating more than the limit returns an error
+- name: Users
+  scope: per-tenant
+  limit: 10
+  resource: user
+  quota_increase_requestable: true
+  on_exhaustion: Inviting more than the limit returns an error
+- name: Projects
+  scope: per-tenant
+  limit: 50
+  resource: project
+  quota_increase_requestable: true
+  on_exhaustion: Creating more than the limit returns an error; archived projects count toward it
+- name: PLaMo Chat request rate
+  scope: per-user
+  window: 1 minute
+  limit: 10
+  applies_to: PLaMo Chat demo web application (not the API)
+  quota_increase_requestable: false
+  on_exhaustion: Returns an error
+response_headers:
+  documented: false
+  observed: []
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is documented anywhere in the PLaMo
+    reference, and the API cannot be exercised anonymously to observe them — an unauthenticated
+    request to https://api.platform.preferredai.jp/v1/models returns HTTP 400
+    {"message":"missing key in request header"} before any rate-limit accounting. An agent therefore
+    has no published runtime signal for remaining quota; only the documented static numbers above.
+exhaustion_status_code: not documented
+quota_increase_process:
+  method: Support form
+  url: https://support.plamo.preferredai.jp/
+  note: >-
+    Limits marked quota_increase_requestable are raised via the PLaMo API Help Center contact form.
+    Tenant-level billing limits and alerts are additionally self-service in the API console.
+billing_controls:
+  levels:
+  - name: Tenant quota
+    description: Hard tenant usage ceiling, initially set low to prevent unexpected charges; increases require a form submission.
+  - name: Tenant billing limit
+    description: Configurable monthly maximum charge, freely adjustable within the tenant quota; API use is restricted automatically on reach.
+  - name: Project budget limit
+    description: Per-project usage limits and alerts, with daily and monthly token/spend visibility.
+  source: https://docs.plamo.preferredai.jp/en/console
+evidence:
+- url: https://docs.plamo.preferredai.jp/en/limit
+  status: 200
+- url: https://docs.plamo.preferredai.jp/en/console
+  status: 200
+- url: https://api.platform.preferredai.jp/v1/models
+  status: 400
+  note: Unauthenticated probe; no rate-limit headers present on the response.

@@ -1,0 +1,48 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.plamo.preferredai.jp/en/console
+name: Preferred Networks PLaMo developer console and free surfaces
+description: >-
+  Preferred Networks operates a real developer console for the PLaMo API and two free, no-cost ways
+  to exercise PLaMo before or alongside paying for it. It does NOT publish a test/live key split,
+  test fixtures, magic identifiers, time simulation, or any sandbox environment with separate
+  semantics — those fields are recorded as absent rather than filled.
+console:
+  published: true
+  url: https://console.platform.preferredai.jp/
+  status: 200
+  manual: https://docs.plamo.preferredai.jp/en/console
+  capabilities:
+  - Create and manage a tenant, projects and members with three roles
+  - Create, delete and re-generate personal and project API keys
+  - View daily and monthly token usage and spend per project
+  - Set per-project usage limits and alerts
+  - Set a tenant monthly billing limit within the tenant quota
+free_surfaces:
+- name: PLaMo Chat (demo)
+  url: https://chat-demo.plamo.preferredai.jp
+  cost: free
+  auth: email address only
+  limits: 10 messages per minute; PLaMo 2.2 Prime only
+  note: Browser chat UI, not an API surface.
+- name: Free plan
+  status: announced-not-yet-available
+  note: >-
+    A zero-price API plan is published on the pricing page with the CTA disabled and labelled
+    "in preparation"; PFN's 2026-06-22 plan notice states only Standard and Provider are available.
+    See plans/preferred-networks-plans-pricing.yml.
+- name: Signup credit
+  note: >-
+    Campaign promotion codes grant yen-denominated credit at signup (e.g. an ICPC 2025 Yokohama grant
+    of 20,000 yen valid to 2026-07-31). Campaign-specific and expiring, not a standing free tier.
+test_mode:
+  separate_environment: false
+  test_key_prefix: none published
+  live_key_prefix: none published
+  test_fixtures: none published
+  magic_identifiers: none published
+  time_simulation: none published
+  note: >-
+    There is one set of API keys and one set of endpoints. A developer rehearsing a call has no
+    non-billing mode; the closest published affordance is POST /v1/tokenize, which prices the input
+    side of a request without running a generation.

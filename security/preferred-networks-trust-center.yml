@@ -1,0 +1,84 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.preferred.jp/en/company/aipolicy
+name: Preferred Networks trust, compliance and AI governance
+description: >-
+  Preferred Networks publishes no dedicated trust centre or trust.* subdomain, and
+  probe-security-programs.py found neither one nor a vulnerability-disclosure programme. It does,
+  however, publish a named certification and three downloadable governance/security policy documents
+  from its corporate site, which are recorded here.
+trust_center:
+  published: false
+  probed:
+  - url: https://trust.preferred.jp/
+    status: DNS NXDOMAIN
+  note: No trust portal, subprocessor list, or downloadable audit-report request flow was found.
+certifications:
+- name: ISO/IEC 27001
+  scope: >-
+    AI Products and Solutions Division — development, commissioned work, and provision of products
+    and services.
+  status: certified
+  statement: >-
+    "AI Products and Solutions Division is ISO 27001-certified for development, commissioned work and
+    provision of products and services."
+  source: https://www.preferred.jp/en/company/aipolicy
+  certificate_number: not published
+  auditor: not published
+  scope_note: >-
+    The certification is stated for one division, not company-wide. PFN does not publish which legal
+    entity, which registrar, or whether the PLaMo API platform falls inside the certified scope.
+policies:
+- name: Information Security Basic Policy
+  url: http://preferred.jp/downloads/pfn_information_security_basic_policy_en.pdf
+  format: PDF
+  language: en
+- name: Cloud Security Policy
+  url: https://static.preferred.jp/downloads/pfn_cloud_security_policy_en.pdf
+  format: PDF
+  language: en
+- name: Privacy Policy
+  url: https://www.preferred.jp/en/policy/
+  format: HTML
+  language: en
+ai_governance:
+  published: true
+  url: https://www.preferred.jp/en/company/aipolicy
+  framework: >-
+    An AI governance framework PFN describes as aligned with Japanese government guidelines, under
+    management commitment, with published principles of Transparency, Risk-readiness and Integrity.
+  safety_evaluation:
+    benchmark: HELM Safety (Stanford Center for Research on Foundation Models)
+    claim: >-
+      PFN states PLaMo 3.0 Prime achieved safety performance at or above comparable overseas models
+      across HELM Safety categories, using safety data provided by NICT.
+    source: https://www.preferred.jp/ja/news/pr20260622
+    independent_verification: none published
+data_handling:
+  zero_data_retention: >-
+    Advertised as a plan feature (ZDR — input data not retained) on the Standard and Provider plans;
+    not available on the announced Free plan.
+  training_on_customer_data: >-
+    "Input data not used for training" is a Standard/Provider plan feature; the Free plan does not
+    carry it.
+  data_residency: >-
+    PFN markets PLaMo as a domestic (Japanese) model; third-party coverage reports requests are
+    processed on servers in Japan, but no first-party data-residency commitment was located in the
+    documentation, terms page (client-rendered) or product site.
+  caveat: >-
+    safety_identifier values may be persisted server-side; the API reference instructs callers not to
+    put personal or sensitive data in that field.
+vulnerability_disclosure:
+  published: false
+  security_txt: false
+  bug_bounty: none found
+  probed:
+  - url: https://www.preferred.jp/.well-known/security.txt
+    status: 404
+  - url: https://api.platform.preferredai.jp/.well-known/security.txt
+    status: 404
+  - url: https://docs.plamo.preferredai.jp/.well-known/security.txt
+    status: 404
+  note: >-
+    No security.txt, no disclosure policy page, and no HackerOne/Bugcrowd/Intigriti programme was
+    found. No Security pointer is emitted.
