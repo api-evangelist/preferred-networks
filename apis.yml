@@ -10,6 +10,17 @@ description: >-
   (PLaMo Lite) deployment options. PFN also maintains widely used open-source machine-learning
   software including Optuna, Chainer, PFRL, pytorch-pfn-extras and the PLaMo Translate CLI, which
   doubles as a locally hosted MCP server.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.preferred.jp/images/ogp.png
 url: https://raw.githubusercontent.com/api-evangelist/preferred-networks/refs/heads/main/apis.yml
 x-type: company
