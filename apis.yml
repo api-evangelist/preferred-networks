@@ -31,6 +31,19 @@ modified: '2026-08-26'
 tags:
 - Company
 - Artificial Intelligence
+- Machine-Learning
+- Large Language Models
+- Generative AI
+- LLM Inference
+- Foundation Models
+- Japan
+- Semiconductors
+- Supercomputing
+- Translation
+- MCP
+tags_raw:
+- Company
+- Artificial Intelligence
 - Machine Learning
 - Large Language Models
 - Generative AI
@@ -54,6 +67,13 @@ apis:
   humanURL: https://docs.plamo.preferredai.jp/en/
   baseURL: https://api.platform.preferredai.jp/v1
   tags:
+  - Large Language Models
+  - Generative AI
+  - Chat Completions
+  - OpenAI-Compatible
+  - Tokenization
+  - Japan
+  tags_raw:
   - Large Language Models
   - Generative AI
   - Chat Completions
