@@ -48,7 +48,7 @@ tags:
 - Company
 - Artificial Intelligence
 - Machine-Learning
-- Large Language Models
+- LLM
 - Generative AI
 - LLM Inference
 - Foundation Models
@@ -83,7 +83,7 @@ apis:
   humanURL: https://docs.plamo.preferredai.jp/en/
   baseURL: https://api.platform.preferredai.jp/v1
   tags:
-  - Large Language Models
+  - LLM
   - Generative AI
   - Chat Completions
   - OpenAI-Compatible
