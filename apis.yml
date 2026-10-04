@@ -47,10 +47,10 @@ modified: '2026-08-26'
 tags:
 - Company
 - Artificial Intelligence
-- Machine-Learning
+- Machine Learning
 - LLM
 - Generative AI
-- LLM Inference
+- Inference
 - Foundation Models
 - Japan
 - Semiconductors
@@ -70,6 +70,7 @@ tags_raw:
 - Supercomputing
 - Translation
 - MCP
+- Machine-Learning
 apis:
 - name: PLaMo API
   description: >-
