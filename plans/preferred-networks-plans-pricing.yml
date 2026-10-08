@@ -126,3 +126,35 @@ evidence:
 - url: https://www.preferred.jp/ja/news/pr20260622
   status: 200
   note: PFN press release referencing the PLaMo API "standard" plan pricing.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  - negotiated
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Standard
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Provider
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: On-Premise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
